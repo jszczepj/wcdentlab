@@ -1,0 +1,460 @@
+@charset "UTF-8";
+/* CSS Document */
+.casenumberbutton {
+	margin-top:5px;
+    margin-left:10px;
+    padding:2px 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:2px solid #ccc1
+    background-color:#ccc;
+    color:#666666;
+    font-weight:bold;
+}
+.casenumberbutton:hover {
+    margin-top:5px;
+    margin-left:10px;
+    padding:2px 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:2px solid #ccc;
+    background-color:#ccc;
+    color:#333;
+    font-weight:bold;
+}
+	
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, cite, code,
+del, dfn, em, font, ins, kbd, q, s, samp,
+strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	border: 0;
+	font-family: 'Source Sans Pro', sans-serif;
+/*	font-family: Tahoma, Geneva, sans-serif; */
+	font-size: 13px;
+	font-style: inherit;
+	font-weight: inherit;
+	margin: 0;
+	outline: 0;
+	padding: 0;
+	vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	background-color:#eaeaea;
+}
+
+a {
+	color:#666;
+	text-decoration:none;
+}
+a:visited {
+	color:#666;
+}
+a:hover {
+	color:#333;
+}
+
+label {
+    width:70px;
+    float:left;
+    font-size:13px;
+    line-height:24px;
+    font-weight:normal;
+	font-family: 'Source Sans Pro', sans-serif;
+
+}
+#searchData label {
+    width:250px;
+    float:left;
+    font-size:13px;
+    line-height:24px;
+    font-weight:normal;
+	font-family: 'Source Sans Pro', sans-serif;
+	margin-left:20px;
+
+}
+#newcase label {
+    width:250px;
+    float:left;
+    font-size:13px;
+    line-height:24px;
+    font-weight:normal;
+	font-family: 'Source Sans Pro', sans-serif;
+	margin-left:20px;
+
+}
+
+/*General rules*/
+#form3 input {
+    line-height:18px;
+}
+/*General rules*/
+#searchData input {
+    line-height:18px;
+}
+#search input {
+    line-height:18px;
+}
+#newcase input {
+    line-height:18px;
+}
+/*Text, email & tel input fields*/
+#form3 input[type=text],
+#form3 input[type=password],
+#form3 input[type=tel] {
+    width:300px;
+    margin-bottom:8px;
+    padding:2px 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:1px solid #CCC;
+}
+/*Text, email & tel input fields*/
+#searchData input[type=text],
+#searchData input[type=password],
+#searchData select {
+    width:300px;
+    margin-bottom:8px;
+    padding:2px 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:1px solid #CCC;
+}
+/*Text, email & tel input fields*/
+#procedures input[type=text],
+#procedures input[type=password] {
+	width:170px;
+    margin-bottom:8px;
+    padding:2px 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:1px solid #CCC;
+	vertical-align:top;
+}
+
+#procedures select {
+    width:180px;
+    margin-bottom:8px;
+    padding:2px 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:1px solid #CCC;
+	vertical-align:top;
+}
+#procedures img {
+		margin:0 7px 0 3px;
+}
+/*Text, email & tel input fields*/
+#newcase input[type=text],
+#newcase input[type=password],
+#newcase input[type=radio],
+#newcase select {
+    width:300px;
+    margin-bottom:8px;
+    padding:2px 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:1px solid #CCC;
+}
+#newcase select {
+    display: inline-block;
+    width: 300px;
+    height: 30px;
+    padding: 3px 10px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    line-height: 24px;
+    color: #555555;
+    vertical-align: middle;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+/*The Submit Button */
+#newcase input[type=button] {
+    margin-top:5px;
+    margin-left:160px;
+    padding:2px 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:2px solid #ccc;
+    background-color:#ccc;
+    color:#666666;
+    font-weight:bold;
+}
+#newcase button {
+    margin-top:5px;
+    margin-left:270px;
+    padding:2px 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:2px solid #ccc;
+    background-color:#ccc;
+    color:#666666;
+    font-weight:bold;
+}
+#newcase button:hover {
+    margin-top:5px;
+    margin-left:270px;
+    padding:2px 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:2px solid #ccc;
+    background-color:#ccc;
+    color:#333;
+    font-weight:bold;
+}
+/*Just the tel field*/
+#form3 input[type=tel] {
+    width:150px;
+}
+/*The Submit Button */
+#form3 input[type=button] {
+    margin-top:5px;
+    margin-left:70px;
+    padding:2px 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:2px solid #ccc;
+    background-color:#ccc;
+    color:#fff;
+    font-weight:bold;
+	height:30px;
+}
+#form3 button {
+    margin-top:5px;
+    margin-left:70px;
+    padding:2px 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:2px solid #ccc;
+    background-color:#ccc;
+    color:#fff;
+    font-weight:bold;
+	height:30px;
+}
+#form3 input[type=text]:focus,
+#form3 input[type=password]:focus,
+#form3 input[type=tel]:focus{
+    border:1px solid #09F;
+    -webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+-moz-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+}
+#wrapperlarge {
+	width:1000px;
+	height:auto;
+	margin-top:60px;
+	margin-bottom:40px;
+	padding:0px;
+	clear: both;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:1px solid #CCC;
+	background-color:#FFF;
+}
+#search {
+	width:800px;
+	height:auto;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom:40px;
+	margin-bottom:40px;
+}
+#search select {
+    display: inline-block;
+    width: 300px;
+    height: 30px;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    line-height: 20px;
+    color: #555555;
+    vertical-align: middle;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+#procedures select {
+    display: inline-block;
+    width: 200px;
+    height: 25px;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    line-height: 24px;
+    color: #555555;
+    vertical-align: middle;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+#search h1 {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size:24px;
+	font-weight:300;
+	margin:40px 0px;
+}
+/*The Submit Button */
+#search input[type=button] {
+    margin-top:5px;
+    margin-left:160px;
+    padding:2px 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:2px solid #ccc;
+    background-color:#ccc;
+    color:#666666;
+    font-weight:bold;
+}
+#search button {
+    margin-top:5px;
+    margin-left:270px;
+    padding:2px 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:2px solid #ccc;
+    background-color:#ccc;
+    color:#666666;
+    font-weight:bold;
+}
+#search button:hover {
+    margin-top:5px;
+    margin-left:270px;
+    padding:2px 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:2px solid #ccc;
+    background-color:#ccc;
+    color:#333;
+    font-weight:bold;
+}
+#newcase {
+	width:800px;
+	height:auto;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom:40px;
+}
+#procedures {
+	width:800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#newcase h1 {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size:24px;
+	font-weight:300;
+	margin:40px 0px;
+}
+#wrapper {
+	width:500px;
+	margin-top:60px;
+	padding:40px;
+	clear: both;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:1px solid #CCC;
+	background-color:#FFF;
+}
+#login {
+	width:400px;
+	height:250px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#login h1 {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size:24px;
+	font-weight:300;
+	margin:20px 70px;
+}
+#login .date {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size:13px;
+	margin:20px 0px 20px 70px;
+}
+.date {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size:13px;
+	margin:20px 0px;
+}
+#login .loginerror {
+	font-family:"Courier New", Courier, monospace;
+	color:#C00;
+	font-size:14px;
+	margin:20px 0px 20px 70px;
+}
+#casedisplay {
+	line-height:20px;
+}
+#reporting button {
+    margin-top:1px;
+    padding:1px 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:2px solid #ccc;
+    background-color:#ccc;
+    color:#666666;
+    font-weight:bold;
+    font-size:12px;
+}
+#reporting button:hover {
+    margin-top:1px;
+    padding:1px 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:2px solid #ccc;
+    background-color:#ccc;
+    color:#333;
+    font-weight:bold;
+    font-size:12px;
+}
+h3 {
+	color:#FFF;
+	font-size:14px;
+	font-weight:700;
+}
+textarea {
+    resize: none;
+    margin-bottom:8px;
+    padding:2px 5px; 
+    -webkit-border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    border-radius: 5px; 
+    border:1px solid #CCC;
+}

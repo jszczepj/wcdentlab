@@ -1,0 +1,35 @@
+@CHARSET "UTF-8";
+.custom-combobox {
+		position: relative;
+		display: inline-block;
+}
+.custom-combobox-toggle {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin-left: -1px;
+	padding: 0;
+	/* support: IE7 */
+	*height: 1.7em;
+	*top: 0.1em;
+}
+.custom-combobox-input {
+	width: 300px;
+    height: 30px;
+    padding: 3px 10px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-color: 
+    line-height: 24px;
+    color: #55555;
+    background-color:#ff0000;
+    vertical-align: middle;
+   	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.ui-widget-content {
+	border: 1px solid #CCC;
+	background: #ffffff ;
+	color: #55555;
+}
