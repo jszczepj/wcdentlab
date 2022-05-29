@@ -27,7 +27,7 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 		."Please go back and try again.";
 		exit;
 	}
-	if (!get_magic_quotes_gpc()) 
+	/*if (!get_magic_quotes_gpc()) 
 	{
 		$officeName = addslashes($officeName);
 		//$patientId = addslashes($patientId);
@@ -39,7 +39,7 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 		$paidToLab = addslashes($paidToLab);
 		$associateDeduction = addslashes($associateDeduction);
 		$associateDeductionUpdDt = addslashes($associateDeductionUpdDt);
-	}
+	}*/
 	if ($associateDeduction == 'NO' && empty($associateDeductionUpdDt))
 	{
 		$query = "update case_tbl set ".
