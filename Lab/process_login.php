@@ -29,7 +29,6 @@
 			}
 			else 
 			{
-				session_start();
 				$_SESSION['userName'] = $userNameRet;
 				$_SESSION['userRole'] = $userRoleRet;
 				header("Location: /lab/search_display_cases.php");

@@ -43,7 +43,7 @@ function display_header()
     background-color:#ccc;
     color:#fff;
     font-weight:bold;\"><a href=\"add_case_dyn_proc.php\">Add New Case</a></td>";
-	/*if ($_SESSION['userRole'] === 'admin')
+	if ($_SESSION['userRole'] === 'admin')
 	{
 		echo "<td>&nbsp;&nbsp;</td>";
 		echo "<td style=\"text-align:center;
@@ -56,8 +56,8 @@ function display_header()
     	border:2px solid #ccc;
     	background-color:#ccc;
     	color:#fff;
-    	font-weight:bold;\"><a href=\"edit_patient.php\">Manage Patient(s)</a></td>";
-	}*/
+    	font-weight:bold;\"><a href=\"add_patient.php\">Add Patient(s)</a></td>";
+	}
 	if ($_SESSION['userRole'] === 'admin')
 	{
 		echo "<td>&nbsp;&nbsp;</td>";
