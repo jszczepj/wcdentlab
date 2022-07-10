@@ -17,6 +17,8 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 	$labInvNo = $_POST['lab_invoice_no_txt'];
 	$labInvAmt = $_POST['lab_invoice_am_txt'];
 	$paidByPatient = $_POST['paidbypatient'];
+	$caseStatusCd = 'E';
+	$lastUpdUserId = $_SESSION['userName'];
 	//$paidToLab = $_POST['paidtolab'];
 		
 	/*if (!get_magic_quotes_gpc()) {
@@ -31,8 +33,8 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 	}*/
 	
 	$query = "insert into case_tbl(".
-			 "OFFICE_NAME, PATIENT_ID, DOCTOR_NAME, LAB_ID, CASE_OPEN_DT, LAB_INVOICE_NO, LAB_COST, PAID_BY_PATIENT)".
-			 " values ('{$officeName}',{$patientId},'{$dentistName}',{$labId},sysdate(),{$labInvNo},{$labInvAmt},'{$paidByPatient}')";
+			 "OFFICE_NAME, PATIENT_ID, DOCTOR_NAME, LAB_ID, CASE_OPEN_DT, LAB_INVOICE_NO, LAB_COST, PAID_BY_PATIENT, CASE_STATUS_CD, LAST_UPD_USERID, LAST_UPD_DT)".
+			 " values ('{$officeName}',{$patientId},'{$dentistName}',{$labId},sysdate(),{$labInvNo},{$labInvAmt},'{$paidByPatient}','{$caseStatusCd}','{$lastUpdUserId}',sysdate())";
 	echo "$query\n";
 	$result = mysqli_query($con, $query);
 	// Get the generated ID for just inserted record
@@ -102,8 +104,8 @@ if(isset($_POST['submit_add_1']))
 	}*/
 	
 	$query = "insert into case_tbl(".
-			 "OFFICE_NAME, PATIENT_ID, DOCTOR_NAME, LAB_ID, CASE_OPEN_DT, LAB_INVOICE_NO, LAB_COST, PAID_BY_PATIENT)".
-			 " values ('{$officeName}',{$patientId},'{$dentistName}',{$labId},sysdate(),{$labInvNo},{$labInvAmt},'{$paidByPatient}')";
+			 "OFFICE_NAME, PATIENT_ID, DOCTOR_NAME, LAB_ID, CASE_OPEN_DT, LAB_INVOICE_NO, LAB_COST, PAID_BY_PATIENT, CASE_STATUS_CD, LAST_UPD_USERID, LAST_UPD_DT)".
+			 " values ('{$officeName}',{$patientId},'{$dentistName}',{$labId},sysdate(),{$labInvNo},{$labInvAmt},'{$paidByPatient}','{$caseStatusCd}','{$lastUpdUserId}',sysdate())";
 	$result = mysqli_query($con, $query);
 	// Get the generated ID for just inserted record
 	

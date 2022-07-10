@@ -263,7 +263,7 @@ label {
 box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
 }
 #wrapperlarge {
-	width:1000px;
+	width:1500px;
 	height:auto;
 	margin-top:60px;
 	margin-bottom:40px;
@@ -279,7 +279,7 @@ box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
 	background-color:#FFF;
 }
 #search {
-	width:800px;
+	width:1200px;
 	height:auto;
 	margin-left: auto;
 	margin-right: auto;
@@ -358,14 +358,14 @@ box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
     font-weight:bold;
 }
 #newcase {
-	width:800px;
+	width:1200px;
 	height:auto;
 	margin-left: auto;
 	margin-right: auto;
 	padding-bottom:40px;
 }
 #procedures {
-	width:800px;
+	width:1200px;
 	margin-left: auto;
 	margin-right: auto;
 }

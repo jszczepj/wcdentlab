@@ -10,8 +10,11 @@
 // Get data from the database to populate update form.
 $caseId = $_GET['cId'];
 $displayExtraProc = $_GET['eProc'];
-$query = "select OFFICE_NAME, PATIENT_ID, DOCTOR_NAME, LAB_ID, LAB_INVOICE_NO, LAB_COST, PAID_BY_PATIENT, PAID_TO_LAB, ASSOCIATE_DEDUCTION, ASSOCIATE_DEDUCTION_UPD_DT".
-" from case_tbl where CASE_NUMBER_ID = ". $caseId;
+$query = "select ct.OFFICE_NAME, ct.PATIENT_ID, ct.DOCTOR_NAME, ct.LAB_ID, ct.LAB_INVOICE_NO".
+" , ct.LAB_COST, ct.PAID_BY_PATIENT, ct.PAID_TO_LAB, ct.ASSOCIATE_DEDUCTION, ct.ASSOCIATE_DEDUCTION_UPD_DT".
+" , ct.LAST_UPD_USERID, ct.LAST_UPD_DT, cst.CASE_STATUS_DESC".
+" from case_tbl ct inner join case_status_tbl cst on ct.CASE_STATUS_CD = cst.CASE_STATUS_CD".
+" where CASE_NUMBER_ID = ". $caseId;
 $result = mysqli_query($con, $query);
 while ($row = mysqli_fetch_assoc($result)) 
 {
@@ -25,6 +28,9 @@ while ($row = mysqli_fetch_assoc($result))
 	$paidSetToLab = $row['PAID_TO_LAB'];
 	$associateSetDeduction = $row['ASSOCIATE_DEDUCTION'];
 	$associateSetDeductionUpdDt = $row['ASSOCIATE_DEDUCTION_UPD_DT'];
+	$lastUpdUserId = $row['LAST_UPD_USERID'];
+	$lastUpdDt = $row['LAST_UPD_DT'];
+	$caseStatusDesc = $row['CASE_STATUS_DESC'];
 }
 				
 ?>
@@ -127,7 +133,7 @@ while ($row = mysqli_fetch_assoc($result))
 	<body>
 <div id="wrapperlarge">
     <div id="search">
-    <div align="right"><img src="images/winston-churchill-dental.png" width="220"><img src="images/heritage-house-dental.png" width="300"></div>
+    <div align="right"><img src="images/winston-churchill-dental.png" width="220"><img src="images/heritage-house-dental.png" width="300"><img src="images/smiles-on-essa-dental.png" width="300"></div>
      <h1>View / Modify Case</h1>
 <p align="right" class="date">Date: <?php echo date('jS F Y'); ?>&nbsp;&nbsp;&nbsp;User Name: <?php echo $_SESSION['userName']; ?>&nbsp;&nbsp;&nbsp;User Role: <?php echo $_SESSION['userRole']; ?></p>
 <form action="update_save_case.php" name="caseData" method="post" onsubmit="return (validateForm())">
@@ -139,13 +145,18 @@ while ($row = mysqli_fetch_assoc($result))
 			<td colspan="1" style="background-color:#877c74; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px" >
 				<h3>Case #: <?php echo $caseId; ?></h3>
 			</td>
-			
-			<td colspan="1" style="background-color:#877c74; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px" >
-				
+			<td colspan="1" style="background-color:#877c74; horizontal-align: right; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px" >
+				<h3> Status: <?php echo $caseStatusDesc; ?></h3>
+			</td>
+			<td colspan="1" style="background-color:#877c74; horizontal-align: right; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px" >
+				<h3> Last Updated By: <?php echo $lastUpdUserId; ?></h3>
+			</td>
+			<td colspan="1" style="background-color:#877c74; horizontal-align: right; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px" >
+				<h3> On: <?php echo $lastUpdDt; ?></h3>
 			</td>
 		</tr>
 	</table>
-	<table width="100%" border="0" cellspacing="0" cellpadding="2">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td align="left">
 				<?php 
@@ -153,7 +164,7 @@ while ($row = mysqli_fetch_assoc($result))
 					$officeNameAr = array('Heritage House Dental'
 										  ,'Winston Churchill Dental'
 										 );
-					print "<label for=\"office_lst\">Office Location:</label><select name=\"office_lst\">";
+					print "<label for=\"office_lst\" style=\"width: 100px; height: 30px; vertical-align: middle; margin-left: 5px\">Office:</label><select name=\"office_lst\" style=\"width: 200px; height: 30px\">";
 					for ($i = 0; $i < count($officeNameAr); $i++)
 					{
 						if ($officeNameAr[$i] == $officeSetName)
@@ -166,12 +177,13 @@ while ($row = mysqli_fetch_assoc($result))
 						}
 					}
 					print "</select>";
-				?><br />
-			
+				?>
+			</td>
+			<td align="left">
 				<?php
 				$query = "select PATIENT_ID, PATIENT_FNAME, PATIENT_LNAME, PATIENT_PHONE_NO from patient_tbl order by PATIENT_LNAME";
 				$result = mysqli_query($con, $query);
-				print "<label for=\"patient_lst_id\">Patient Name:</label><select name=\"patient_lst_id\" id=\"patient_lst_id\">\n";
+				print "<label for=\"patient_lst_id\" style=\"width: 100px; height: 30px vertical-align: middle; margin-left: 5px\">Patient:</label><select name=\"patient_lst_id\" id=\"patient_lst_id\">";
 				//echo "<option value=''>Select Patient</option>";
 				while ($row = mysqli_fetch_assoc($result)) 
 				{
@@ -189,11 +201,12 @@ while ($row = mysqli_fetch_assoc($result))
 					}
 				}
 				echo "</select>";
-				?><br />
-			
+				?>
+			</td>
+			<td align="left">
 				<?php 
 					$doctorNameAr = array('Kate Bazydlo','Daniela Bololoi','Jennifer Holody','Yolanda Li','Nicole Maciel','Fred Diodati');
-					print "<label for=\"dentist_lst\">Dentist:</label><select name=\"dentist_lst\">";
+					print "<label for=\"dentist_lst\" style=\"width: 100px; height: 30px; vertical-align: middle; margin-left: 5px\">Dentist:</label><select name=\"dentist_lst\" style=\"width: 250px; height: 30px\">";
 					for ($i = 0; $i < count($doctorNameAr); $i++)
 					{
 						if ($doctorNameAr[$i] == $doctorSetName)
@@ -210,13 +223,15 @@ while ($row = mysqli_fetch_assoc($result))
 			</td>
 		</tr>
 	</table>
-	<table width="100%" border="0" cellspacing="0" cellpadding="2">			
+	<br>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
-			<td align="left">
-				<label for="lab_lst">Laboratory:</label><?php
+			<td width="25%" align="left">
+				<label for="lab_lst" style="width: 75px; height: 30px; vertical-align: middle; margin-left: 5px">Laboratory:</label>
+				<?php
 				$query = "select LAB_ID, LAB_NAME, LAB_CONTACT_FNAME, LAB_CONTACT_LNAME, LAB_PHONE_NO from lab_tbl order by LAB_NAME";
 				$result = mysqli_query($con, $query);
-					print "<select name=\"lab_lst\">\n";
+					print "<select name=\"lab_lst\" style=\"width: 200px; height: 30px\">";
 					while ($row = mysqli_fetch_assoc($result)) 
 					{
 						$labId = $row['LAB_ID'];
@@ -234,81 +249,94 @@ while ($row = mysqli_fetch_assoc($result))
 						}
 					}
 					print "</select>\n";
-				?><br />
-			 <label for="lab_invoice_no_txt">Lab Invoice Number:</label>
-				<?php 
-					print "<input type=\"text\" value=$labSetInvoiceNo name=\"lab_invoice_no_txt\" >";
-				?><br />
-			 <label for="lab_invoice_am_txt">Lab Invoice Amount:</label>
-				<?php 
-					print "<input type=\"text\" value=$labSetCost name=\"lab_invoice_am_txt\" >";
-				?><br />
+				?>
 			</td>
-		</tr>
-	</table>
-    <table width="100%" border="0" cellspacing="0" cellpadding="2">
-    	<tr>
-			<td><label for="paidbypatient">Paid by Patient:</label>
+			<td width="25%" align="left">
+		 		<label for="lab_invoice_no_txt" style="width: 125px; height: 30px; vertical-align: middle; margin-left: 5px">Lab Invoice Number:</label>
+				<?php 
+					print "<input type=\"text\" value=$labSetInvoiceNo name=\"lab_invoice_no_txt\" style=\"width: 100px; height: 30px\" >";
+				?>
+			</td>
+			<td width="20%" align="left">
+			 	<label for="lab_invoice_am_txt" style="width: 125px; height: 30px; vertical-align: middle; margin-left: 5px">Lab Invoice Amount:</label>
+				<?php 
+					print "<input type=\"text\" value=$labSetCost name=\"lab_invoice_am_txt\" style=\"width: 100px; height: 30px\" >";
+				?>
+			</td>
+			<td width="30%" align="left">
+			<label for="paidbypatient" style="width: 125px; height: 30px; vertical-align: middle; margin-left: 5px">Paid by Patient:</label>
 				<?php 
 					$paidByPatientAr = array('NO','YES','PP');
 					for ($i = 0; $i < count($paidByPatientAr); $i++)
 					{
 						if ($paidByPatientAr[$i] === $paidSetByPatient)
 						{
-							print "<input style=\"width:20px; height:15px\" type=\"radio\" name=\"paidbypatient\" value=$paidByPatientAr[$i] checked=\"checked\">$paidByPatientAr[$i] &nbsp;&nbsp;&nbsp;";
+							print "<input style=\"width:20px; height:15px\" type=\"radio\" name=\"paidbypatient\" value=$paidByPatientAr[$i] checked=\"checked\">$paidByPatientAr[$i]";
 						}
 						else 
 						{
-							print "<input style=\"width:20px; height:15px\" type=\"radio\" name=\"paidbypatient\" value=$paidByPatientAr[$i]>$paidByPatientAr[$i] &nbsp;&nbsp;&nbsp;";
+							print "<input style=\"width:20px; height:15px\" type=\"radio\" name=\"paidbypatient\" value=$paidByPatientAr[$i]>$paidByPatientAr[$i] ";
 						}
 					}
-				?><br />
-			</tr>
-		<?php
-			if ($_SESSION['userRole'] === 'admin')
-			{
-				echo "<label for=\"paidtolab\">Paid To Lab:</label>"; 
-				$paidToLabAr = array('NO','YES');
-				for ($i = 0; $i < count($paidToLabAr); $i++)
+				?>
+			</td>
+		</tr>
+	</table>
+	<br>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    		<?php
+				if ($_SESSION['userRole'] === 'admin')
 				{
-					if ($paidToLabAr[$i] === $paidSetToLab)
+					echo "<tr>";
+				    echo "<td width=\"50%\" align=\"left\" >";
+					echo "<label for=\"paidtolab\" style=\"width: 125px; height: 30px; vertical-align: middle; margin-left: 5px\">Paid To Lab:</label>"; 
+					$paidToLabAr = array('NO','YES');
+					for ($i = 0; $i < count($paidToLabAr); $i++)
 					{
-						print "<input style=\"width:20px; height:15px\" type=\"radio\" name=\"paidtolab\" value=$paidToLabAr[$i] checked=\"checked\">$paidToLabAr[$i] &nbsp;&nbsp;&nbsp;";
-					}
-					else 
-					{
-						print "<input style=\"width:20px; height:15px\" type=\"radio\" name=\"paidtolab\" value=$paidToLabAr[$i]>$paidToLabAr[$i] &nbsp;&nbsp;&nbsp;";
+						if ($paidToLabAr[$i] === $paidSetToLab)
+						{
+							print "<input style=\"width:20px; height:15px\" type=\"radio\" name=\"paidtolab\" value=$paidToLabAr[$i] checked=\"checked\">$paidToLabAr[$i]";
 						}
-				}
-				echo "<br />";
-			echo "</td>";
-			echo "</td>";	
-			echo "<tr>";
-				echo "<td>";
-				$associateDeductionAr = array('NO','YES');
-				for ($i = 0; $i < count($associateDeductionAr); $i++)
-				{
-					if ($associateDeductionAr[$i] === $associateSetDeduction)
-					{
-						print "<label for=\"associatededuction\">Associate Deduction:</label><input style=\"width:20px; height:15px\" type=\"radio\" name=\"associatededuction\" value=$associateDeductionAr[$i] checked=\"checked\">$associateDeductionAr[$i] &nbsp;&nbsp;&nbsp;";
+						else 
+						{
+							print "<input style=\"width:20px; height:15px\" type=\"radio\" name=\"paidtolab\" value=$paidToLabAr[$i]>$paidToLabAr[$i]";
+						}
 					}
-					else 
+					echo "</td>";
+					//echo "</tr>";
+					//echo "</table>";
+					//echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">";
+					//echo "<tr>";
+					echo "<td width=\"50%\" align=\"left\" >";
+					$associateDeductionAr = array('NO','YES');
+					for ($i = 0; $i < count($associateDeductionAr); $i++)
 					{
-						print "<input style=\"width:20px; height:15px\" type=\"radio\" name=\"associatededuction\" value=$associateDeductionAr[$i]>$associateDeductionAr[$i] &nbsp;&nbsp;&nbsp;";
+						if ($associateDeductionAr[$i] === $associateSetDeduction)
+						{
+							print "<label for=\"associatededuction\" style=\"width: 125px; height: 30px; vertical-align: middle; margin-left: 5px\">Associate Deduction:</label><input style=\"width:20px; height:15px\" type=\"radio\" name=\"associatededuction\" value=$associateDeductionAr[$i] checked=\"checked\" >$associateDeductionAr[$i] &nbsp;&nbsp;&nbsp;";
+						}
+						else 
+						{
+							print "<input style=\"width:20px; height:15px\" type=\"radio\" name=\"associatededuction\" value=$associateDeductionAr[$i]>$associateDeductionAr[$i] &nbsp;&nbsp;&nbsp;" ;
+						}
 					}
+					print "<input type=\"text\" value=\"$associateSetDeductionUpdDt\" name=\"associatedeductionupddt\" readonly=\"true\" style=\"width:200px; height:30px\">";
+					echo "</td>";
+					echo "</tr>";
+					echo "</table>";
 				}
-				echo "&nbsp;&nbsp;&nbsp;";
-				print "<input type=\"text\" value=\"$associateSetDeductionUpdDt\" name=\"associatedeductionupddt\" readonly=\"true\" >";
-				echo "</tr>";
-			}
-			echo "<tr>";
-			echo "<td align=\"center\">";
-            echo "<button style=\"width:150px; height:30px; margin-left:0; margin-right:3\" type=\"submit\" name=\"submit_exit_1\">Save/Exit</button>";
-            echo "<button style=\"width:150px; height:30px; margin-left:0\" type=\"button\" name=\"cancel_1\" onclick=\"window.location.href='search_display_cases.php'\">Cancel</button>";
-            echo "</td>";
-			echo "</tr>"; 
-		?>
-	</table></div>
+			?>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td align="center">
+				<?php
+            		echo "<button style=\"width:150px; height:30px; margin-left:0; margin-right:3\" type=\"submit\" name=\"submit_exit_1\">Save</button>";
+            		echo "<button style=\"width:150px; height:30px; margin-left:0\" type=\"button\" name=\"cancel_1\" onclick=\"window.location.href='search_display_cases.php'\">Cancel</button>";
+				?>
+			</td>
+			</tr> 
+		</table>
+	</div>
     
     <div id="procedures">
 		<?php	// Define local variables for procedure transaction records 
@@ -396,7 +424,7 @@ while ($row = mysqli_fetch_assoc($result))
     	<tr>
 			<td align="center">
 				<button style="width:250px; height:30px; margin-left:0" type="submit" name="submit_add_1">Save/Add Next Procedure</button>
-                <button style="width:150px; height:30px; margin-left:0" type="submit" name="submit_exit_2">Save/Exit</button>
+                <button style="width:150px; height:30px; margin-left:0" type="submit" name="submit_exit_2">Save</button>
                 <button style="width:150px; height:30px; margin-left:0" type="button" name="cancel_2" onclick="window.location.href='search_display_cases.php'">Cancel</button>
              </td>
 		</tr>

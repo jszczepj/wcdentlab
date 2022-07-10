@@ -26,8 +26,12 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 	$labInvAmt = $_POST['lab_invoice_am_txt'];
 	$paidByPatient = $_POST['paidbypatient'];
 	$paidToLab = $_POST['paidtolab'];
-	$associateDeduction = $_POST['associatededuction'];
-	$associateDeductionUpdDt = $_POST['associatedeductionupddt'];
+	if ($_SESSION['userRole'] === 'admin')
+	{
+		$associateDeduction = $_POST['associatededuction'];
+		$associateDeductionUpdDt = $_POST['associatedeductionupddt'];
+	}
+	$lastUpdUserId = $_SESSION['userName'];
 			
 	if (!$officeName || !$patientId || !$dentistName || !$labId ) 
 	{
@@ -48,36 +52,48 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 		$associateDeduction = addslashes($associateDeduction);
 		$associateDeductionUpdDt = addslashes($associateDeductionUpdDt);
 	}*/
-	if ($associateDeduction == 'NO' && empty($associateDeductionUpdDt))
+	if ($_SESSION['userRole'] === 'admin')
+	{
+		if ($associateDeduction == 'NO' && empty($associateDeductionUpdDt))
+		{
+			$query = "update case_tbl set ".
+				 "OFFICE_NAME = '{$officeName}', PATIENT_ID = {$patientId}, DOCTOR_NAME = '{$dentistName}', LAB_ID = {$labId}, " .
+				 "LAB_INVOICE_NO = {$labInvNo}, LAB_COST = {$labInvAmt}, PAID_BY_PATIENT = '{$paidByPatient}', PAID_TO_LAB = '{$paidToLab}', " .
+				 "ASSOCIATE_DEDUCTION = '{$associateDeduction}', LAST_UPD_USERID =  '{$lastUpdUserId}', LAST_UPD_DT = SYSDATE() " .
+				 "where CASE_NUMBER_ID = {$caseId}";
+		}
+		elseif ($associateDeduction == 'YES' && empty($associateDeductionUpdDt))
+		{
+			$query = "update case_tbl set ".
+				 "OFFICE_NAME = '{$officeName}', PATIENT_ID = {$patientId}, DOCTOR_NAME = '{$dentistName}', LAB_ID = {$labId}, " .
+				 "LAB_INVOICE_NO = {$labInvNo}, LAB_COST = {$labInvAmt}, PAID_BY_PATIENT = '{$paidByPatient}', PAID_TO_LAB = '{$paidToLab}', " .
+				 "ASSOCIATE_DEDUCTION = '{$associateDeduction}', " .
+				 "ASSOCIATE_DEDUCTION_UPD_DT = NOW() , LAST_UPD_USERID =  '{$lastUpdUserId}', LAST_UPD_DT = SYSDATE() " .
+				 "where CASE_NUMBER_ID = {$caseId}";
+		}
+		else 
+		{
+			$query = "update case_tbl set ".
+				 "OFFICE_NAME = '{$officeName}', PATIENT_ID = {$patientId}, DOCTOR_NAME = '{$dentistName}', " .
+		    	 "LAB_ID = {$labId}, LAB_INVOICE_NO = {$labInvNo}, LAB_COST = {$labInvAmt}, " .
+		    	 "PAID_BY_PATIENT = '{$paidByPatient}', " .
+				 "PAID_TO_LAB = '{$paidToLab}', " .
+				 "LAST_UPD_USERID =  '{$lastUpdUserId}', LAST_UPD_DT = SYSDATE() " .
+			 	"where CASE_NUMBER_ID = {$caseId}";
+		}
+	}
+	else
 	{
 		$query = "update case_tbl set ".
-			 "OFFICE_NAME = '{$officeName}', PATIENT_ID = {$patientId}, DOCTOR_NAME = '{$dentistName}', LAB_ID = {$labId}, " .
-			 "LAB_INVOICE_NO = {$labInvNo}, LAB_COST = {$labInvAmt}, PAID_BY_PATIENT = '{$paidByPatient}', PAID_TO_LAB = '{$paidToLab}', " .
-			 "ASSOCIATE_DEDUCTION = '{$associateDeduction}' " .
-			 "where CASE_NUMBER_ID = {$caseId}";
+			"OFFICE_NAME = '{$officeName}', PATIENT_ID = {$patientId}, DOCTOR_NAME = '{$dentistName}', " .
+		    "LAB_ID = {$labId}, LAB_INVOICE_NO = {$labInvNo}, LAB_COST = {$labInvAmt}, " .
+		    "PAID_BY_PATIENT = '{$paidByPatient}', " .
+			"PAID_TO_LAB = '{$paidToLab}', " .
+			"LAST_UPD_USERID =  '{$lastUpdUserId}', LAST_UPD_DT = SYSDATE() " .
+			"where CASE_NUMBER_ID = {$caseId}";
 	}
-	elseif ($associateDeduction == 'YES' && empty($associateDeductionUpdDt))
-	{
-		$query = "update case_tbl set ".
-			 "OFFICE_NAME = '{$officeName}', PATIENT_ID = {$patientId}, DOCTOR_NAME = '{$dentistName}', LAB_ID = {$labId}, " .
-			 "LAB_INVOICE_NO = {$labInvNo}, LAB_COST = {$labInvAmt}, PAID_BY_PATIENT = '{$paidByPatient}', PAID_TO_LAB = '{$paidToLab}', " .
-			 "ASSOCIATE_DEDUCTION = '{$associateDeduction}', " .
-			 "ASSOCIATE_DEDUCTION_UPD_DT = NOW() " .
-			 "where CASE_NUMBER_ID = {$caseId}";
-	}
-	else 
-	{
-		$query = "update case_tbl set ".
-			 "OFFICE_NAME = '{$officeName}', PATIENT_ID = {$patientId}, DOCTOR_NAME = '{$dentistName}', " .
-		     "LAB_ID = {$labId}, LAB_INVOICE_NO = {$labInvNo}, LAB_COST = {$labInvAmt}, " .
-		     "PAID_BY_PATIENT = '{$paidByPatient}', " .
-			 "PAID_TO_LAB = '{$paidToLab}' " .
-			 "where CASE_NUMBER_ID = {$caseId}";
-	}
-	echo "$query\n";
-	echo "\n";
+	fwrite($STDOUT, "$query\n");
 	$result = mysqli_query($con, $query);
-	
 	// Process Procedures ...
 	// Get the current count of procedures
 	$maxProcs = 15;
@@ -114,7 +130,7 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 						 "PROCEDURE_START_DT = '{$procCreateDate}', PROCEDURE_OUT_TO_LAB_DT = '{$procOutLabDate}', PROCEDURE_BACK_FROM_LAB_DT = '{$procFromLabDate}', PROCEDURE_COMMENT = '{$procComments}' " .
 				         "where CASE_NUMBER_ID = {$caseId} and CASE_PROCEDURE_NO = {$i} and PROC_TRANSACTION_ID = {$j}";
 				
-				fwrite($STDOUT, "$query\n");  
+				//fwrite($STDOUT, "$query\n");  
 				
 				$result = mysqli_query($con, $query);
 			}
@@ -159,8 +175,8 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 			//}
 		}
 	}
-	//header("Location: /lab/get_display_case_proc.php?cId=$caseId");
-	header("Location: /lab/search_display_cases.php");
+	header("Location: /lab/get_display_case_proc.php?cId=$caseId");
+	//header("Location: /lab/search_display_cases.php");
 }
 if(isset($_POST['submit_add_1']))
 {
@@ -306,6 +322,7 @@ if(isset($_POST['submit_add_1']))
 			//}
 		}
 	}
+	//header("Location: /lab/get_display_case_proc.php?cId=$caseId");
 	header("Location: /lab/get_display_case_proc.php?cId=".$caseId."&eProc=1");
 }
 ?>
