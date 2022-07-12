@@ -29,7 +29,7 @@
 	<body onload="setFocus()">
     <div id="wrapperlarge">
 <div id="search">
-<div align="right"><img src="images/winston-churchill-dental.png" width="220"><img src="images/heritage-house-dental.png" width="300"></div>
+<div align="right"><img src="images/winston-churchill-dental.png" width="220"><img src="images/heritage-house-dental.png" width="300"><img src="images/smiles-on-essa-dental.png" width="300"></div>
 <h1>Search Case</h1>
 <p align="right" class="date">Date: <?php echo date('jS F Y'); ?>&nbsp;&nbsp;&nbsp;User Name: <?php echo $_SESSION['userName']; ?>&nbsp;&nbsp;&nbsp;User Role: <?php echo $_SESSION['userRole']; ?>
 	<form action="<?php echo $_SERVER['PHP_SELF'];?>" name="searchData" method="post" id="searchData">
@@ -50,79 +50,50 @@
         <td>&nbsp;</td>
         </tr>
 	</table>
-	<table width="100%" border="0" cellspacing="0" cellpadding="2">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
-			<td>
-				<label for="caseIdSc">Case Id:</label><input type="text" value="" name="caseIdSc" id="caseIdSc" ><br />
-			<label for="office_lst">Office Location:</label>
-				<?php 
-					// Initialize Office Name Array
-					$officeNameAr = array('Heritage House Dental','Winston Churchill Dental');
-					if (!empty($_POST['office_lst']))
+			<td width="15%">
+				<label for="caseIdSc" style="width: 50px; height: 30px; vertical-align: middle; margin-left: 5px">Case Id:</label><input type="text" value="" name="caseIdSc" id="caseIdSc" style="width:50px; height:30px">
+			</td>
+			<td width="30%">
+				<?php
+			    	$query = "select PATIENT_ID, PATIENT_FNAME, PATIENT_LNAME, PATIENT_PHONE_NO from patient_tbl order by PATIENT_LNAME";
+					$result = mysqli_query($con, $query);
+					echo "<label for=\"patient_lst_id\" style=\"width: 75px; height: 30px; vertical-align: middle; margin-left: 5px\">Patient:</label><select name=\"patient_lst_id\" id=\"patient_lst_id\">\n";
+					echo "<option value='' selected>Filter Patient</option>";
+					while ($row = mysqli_fetch_assoc($result)) 
 					{
-						$postedOfficeName = $_POST['office_lst'];
-						echo "<select name=\"office_lst\">";
-						echo "<option value=''>Filter Dental Office</option>";
-						for ($i = 0; $i < count($officeNameAr); $i++)
+						$patientId = $row['PATIENT_ID'];
+						$patientFname = $row['PATIENT_FNAME'];
+						$patientLname = $row['PATIENT_LNAME'];
+						$patientPhoneNo = $row['PATIENT_PHONE_NO'];
+						if (!empty($_POST['patient_lst_id']))
 						{
-							if ($officeNameAr[$i] === $postedOfficeName)
+							if ($patientId === $_POST['patient_lst_id'])
 							{
-								echo "<option value=\"$postedOfficeName\" selected >$postedOfficeName</option>";
+								echo "<option value=$patientId selected>$patientLname, $patientFname ($patientPhoneNo)</option>\n";
 							}
 							else 
 							{
-								echo "<option value=\"$officeNameAr[$i]\" >$officeNameAr[$i]</option>";
+								echo "<option value=$patientId>$patientLname, $patientFname ($patientPhoneNo)</option>\n";
 							}
-						}
-						echo "</select>";
-					}
-					else 
-					{
-						echo "<select name=\"office_lst\">";
-						echo "<option value='' selected>Filter Dental Office</option>";
-						for ($i = 0; $i < count($officeNameAr); $i++)
-						{
-								echo "<option value=\"$officeNameAr[$i]\">$officeNameAr[$i]</option>";
-						}
-						echo "</select>";
-					}
-				?><br />
-				<?php
-			    $query = "select PATIENT_ID, PATIENT_FNAME, PATIENT_LNAME, PATIENT_PHONE_NO from patient_tbl order by PATIENT_LNAME";
-				$result = mysqli_query($con, $query);
-				echo "<label for=\"patient_lst_id\">Patient Name:</label><select name=\"patient_lst_id\" id=\"patient_lst_id\">\n";
-				echo "<option value='' selected>Filter Patient</option>";
-				while ($row = mysqli_fetch_assoc($result)) 
-				{
-					$patientId = $row['PATIENT_ID'];
-					$patientFname = $row['PATIENT_FNAME'];
-					$patientLname = $row['PATIENT_LNAME'];
-					$patientPhoneNo = $row['PATIENT_PHONE_NO'];
-					if (!empty($_POST['patient_lst_id']))
-					{
-						if ($patientId === $_POST['patient_lst_id'])
-						{
-							echo "<option value=$patientId selected>$patientLname, $patientFname ($patientPhoneNo)</option>\n";
 						}
 						else 
 						{
 							echo "<option value=$patientId>$patientLname, $patientFname ($patientPhoneNo)</option>\n";
 						}
 					}
-					else 
-					{
-						echo "<option value=$patientId>$patientLname, $patientFname ($patientPhoneNo)</option>\n";
-					}
-				}
-				echo "</select>";
-				?><br />
-			<label for="dentist_lst">Dentist:</label>
+					echo "</select>";
+					?>
+			</td>
+			<td width="30%">
+				<label for="dentist_lst" style="width: 100px; height: 30px; vertical-align: middle; margin-left: 5px">Dentist:</label>
 				<?php 
 					$doctorNameAr = array('Kate Bazydlo','Daniela Bololoi','Jennifer Holody','Yolanda Li','Nicole Maciel','Fred Diodati');
 					if (!empty($_POST['office_lst']))
 					{
 						$postedDoctorName = $_POST['dentist_lst'];
-						echo "<select name=\"dentist_lst\">";
+						echo "<select name=\"dentist_lst\" style=\"width: 175px; height: 30px\">";
 						echo "<option value=''>Filter Doctor's Name</option>";
 						for ($i = 0; $i < count($doctorNameAr); $i++)
 						{
@@ -139,7 +110,7 @@
 					}
 					else 
 					{
-						echo "<select name=\"dentist_lst\">";
+						echo "<select name=\"dentist_lst\" style=\"width: 175px; height: 30px\">";
 						echo "<option value='' selected>Filter Doctor's Name</option>";
 						for ($i = 0; $i < count($doctorNameAr); $i++)
 						{
@@ -147,12 +118,53 @@
 						}
 						echo "</select>";
 					}
-				?><br />
-			<label for="lab_lst">Laboratory:</label>
+				?>	
+			</td>
+			<td width="25%">
+			<label for="office_lst" style="width: 50px; height: 30px; vertical-align: middle; margin-left: 5px">Office:</label>
+				<?php 
+				// Initialize Office Name Array
+					$officeNameAr = array('Heritage House Dental','Winston Churchill Dental');
+					if (!empty($_POST['office_lst']))
+					{
+						$postedOfficeName = $_POST['office_lst'];
+						echo "<select name=\"office_lst\" style=\"width: 175px; height: 30px\">";
+						echo "<option value=''>Filter Dental Office</option>";
+						for ($i = 0; $i < count($officeNameAr); $i++)
+						{
+							if ($officeNameAr[$i] === $postedOfficeName)
+							{
+								echo "<option value=\"$postedOfficeName\" selected >$postedOfficeName</option>";
+							}
+							else 
+							{
+								echo "<option value=\"$officeNameAr[$i]\" >$officeNameAr[$i]</option>";
+							}
+						}
+						echo "</select>";
+					}
+					else 
+					{
+						echo "<select name=\"office_lst\" style=\"width: 175px; height: 30px\">";
+						echo "<option value='' selected>Filter Dental Office</option>";
+						for ($i = 0; $i < count($officeNameAr); $i++)
+						{
+							echo "<option value=\"$officeNameAr[$i]\">$officeNameAr[$i]</option>";
+						}
+						echo "</select>";
+					}
+				?>
+			</td>
+		</tr>
+	</table>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">	
+		<tr>
+			<td width="35%">
+				<label for="lab_lst" style="width: 75px; height: 30px; vertical-align: middle; margin-left: 5px">Laboratory:</label>
 				<?php
 				$query = "select LAB_ID, LAB_NAME, LAB_CONTACT_FNAME, LAB_CONTACT_LNAME, LAB_PHONE_NO from lab_tbl order by LAB_NAME";
 				$result = mysqli_query($con, $query);
-					print "<select name=\"lab_lst\">\n";
+					print "<select name=\"lab_lst\" style=\"width: 175px; height: 30px\">\n";
 					echo "<option value='' selected>Filter Dental Lab Name</option>";
 					while ($row = mysqli_fetch_assoc($result)) 
 					{
@@ -178,25 +190,57 @@
 						}
 					}
 					echo "</select>\n";
-				?><br />
-			<label for="caseCreateDate">Case Create Date (Equal or Greater):</label>
-				<input type="text" value="<?php echo htmlentities($_POST['caseCreateDate']);?>" name="caseCreateDate" id="caseCreateDate">
+				?>
+				</td>
+			<td width="35%">
+				<label for="caseCreateDate" style="width: 125px; height: 30px; vertical-align: middle; margin-left: 5px">Case Create Dt (>=):</label>
+				<input type="text" style="width: 125px; height: 30px" value="<?php echo htmlentities($_POST['caseCreateDate']);?>" name="caseCreateDate" id="caseCreateDate">
 				<script>$(function() {$( "#caseCreateDate" ).datepicker({ dateFormat: 'yy-mm-dd' });});
-				</script><br />
-                <button style="width:150px; height:30px" type="submit" name="submitFilter2">SEARCH</button>
+				</script>
+            </td>
+			<td width="30%">
+				<button style="width:150px; height:30px" type="submit" name="submitFilter2">SEARCH</button>
 			</td>
 		</tr>
 	</table>
+	<!--table>     
+    	<tr>
+			<td colspan="5">
+				<button style="width:150px; height:30px" type="submit" name="submitFilter2">SEARCH</button>
+			</td>
+		</tr>
+	</table-->
 	<table>     
-    	<tr><td colspan="5">&nbsp;</td></tr>
+    	<tr>
+			<td colspan="5">
+				&nbsp;
+			</td>
+		</tr>
 	</table>
 	</form>
 	<table width="100%" border="0" cellspacing="0" cellpadding="2" id="casedisplay">
-	<tr><td style="background-color:#d8d4ca; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px"><h4>Case #</h4></td><td style="background-color:#d8d4ca; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px"><h4>Patient Name</h4></td><td style="background-color:#d8d4ca; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px"><h4>Doctor Name</h4></td><td style="background-color:#d8d4ca; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px"><h4>Dental Lab Name</h4></td><td style="background-color:#d8d4ca; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px"><h4>Dental Office Name</h4></td><td style="background-color:#d8d4ca; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px"><h4>Case Open Date</h4></td></tr>
-    <tr><td>&nbsp;</td></tr>
+		<tr>
+			<td width="10%" align="center" style="background-color:#d8d4ca; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px"><h4>Case #</h4>
+			</td>
+			<td width="20%" style="background-color:#d8d4ca; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px"><h4>Patient Name</h4>
+			</td>
+			<td width="20%" style="background-color:#d8d4ca; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px"><h4>Doctor Name</h4>
+			</td>
+			<td width="20%" style="background-color:#d8d4ca; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px"><h4>Dental Lab Name</h4>
+			</td>
+			<td width="15%" style="background-color:#d8d4ca; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px"><h4>Case Status</h4>
+			</td>
+			<td width="15%" style="background-color:#d8d4ca; vertical-align:middle; color:#000; padding:10px; margin-bottom:10px"><h4>Case Open Date</h4>
+			</td>
+		</tr>
+    	<tr>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
 	<?php 
 		if((isset($_POST['submitFilter1'])) or (isset($_POST['submitFilter2'])))
 		{
+			echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\" id=\"casedisplay\" style=\"border: 1px solid black; border-spacing: 15px; margin-bottom: 5px\">";
 			$caseIdSearch = $_POST['caseIdSc'];
 			$officeNameSearch = $_POST['office_lst'];
 			$patientIdSearch = $_POST['patient_lst_id'];
@@ -257,10 +301,13 @@
 					$caseOpenDtWC = "AND C.CASE_OPEN_DT >= '" . $caseOpenDtSearch ."' ";
 					$filterWhereClause = $filterWhereClause . $caseOpenDtWC;
 				}
-				$query = "SELECT C.CASE_NUMBER_ID, P.PATIENT_FNAME, P.PATIENT_LNAME, C.DOCTOR_NAME, L.LAB_NAME, C.OFFICE_NAME, C.CASE_OPEN_DT  " .
-		 		"FROM case_tbl C, patient_tbl P, lab_tbl L " .
+				// $query = "SELECT C.CASE_NUMBER_ID, P.PATIENT_FNAME, P.PATIENT_LNAME, C.DOCTOR_NAME, L.LAB_NAME, C.OFFICE_NAME, C.CASE_OPEN_DT  " .
+				$query = "SELECT C.CASE_NUMBER_ID, P.PATIENT_FNAME, P.PATIENT_LNAME, C.DOCTOR_NAME, L.LAB_NAME, C.OFFICE_NAME, S.CASE_STATUS_DESC, C.CASE_OPEN_DT " .
+		 		"FROM case_tbl C, patient_tbl P, lab_tbl L, case_status_tbl S " .
 		 		"WHERE C.PATIENT_ID = P.PATIENT_ID " .
-		 		"AND   C.LAB_ID = L.LAB_ID " . $filterWhereClause;
+				"AND   C.CASE_STATUS_CD = S.CASE_STATUS_CD " .
+		 		"AND   C.LAB_ID = L.LAB_ID " . $filterWhereClause . "ORDER BY C.CASE_NUMBER_ID DESC LIMIT 100";
+				//echo "$query";
 				$result = mysqli_query($con, $query);
 				while ($row = mysqli_fetch_assoc($result)) 
 				{
@@ -270,37 +317,46 @@
 					$doctorName = $row['DOCTOR_NAME'];
 					$labName = $row['LAB_NAME'];
 					$officeName = $row['OFFICE_NAME'];
+					$caseStatusDesc = $row['CASE_STATUS_DESC'];
 					$caseOpenDt = $row['CASE_OPEN_DT'];
-					display_case($caseId, $patientFName, $patientLName, $doctorName, $labName, $officeName, $caseOpenDt);
+					display_case($caseId, $patientFName, $patientLName, $doctorName, $labName, $caseStatusDesc, $caseOpenDt);
 				}
-				//echo "$query";
 			}
+			echo "</table>";
 		}
 		else 
 		{
+			//echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"2\" id=\"casedisplay\" style=\"border: 1px solid black\">";
 			// Display cases opened in last week or as a result of query ...
-			$query = "SELECT C.CASE_NUMBER_ID, P.PATIENT_FNAME, P.PATIENT_LNAME, C.DOCTOR_NAME, L.LAB_NAME, C.OFFICE_NAME, C.CASE_OPEN_DT " .
-		 	"FROM case_tbl C, patient_tbl P, lab_tbl L " .
-		 	"WHERE C.PATIENT_ID = P.PATIENT_ID " .
-		 	"AND   C.LAB_ID = L.LAB_ID " .
-		 	"ORDER BY C.CASE_OPEN_DT DESC LIMIT 100";
-			// "AND C.CASE_OPEN_DT >= NOW() - INTERVAL 6 WEEK " .
-			
-			$result = mysqli_query($con, $query);
-			while ($row = mysqli_fetch_assoc($result)) 
+			$statusCdAr = array("'T'","'L'","'B'","'E'","'C'");
+			foreach ($statusCdAr as $statusCd) 
 			{
-				$caseId = $row['CASE_NUMBER_ID'];
-				$patientFName = $row['PATIENT_FNAME'];
-				$patientLName = $row['PATIENT_LNAME'];
-				$doctorName = $row['DOCTOR_NAME'];
-				$labName = $row['LAB_NAME'];
-				$officeName = $row['OFFICE_NAME'];
-				$caseOpenDt = $row['CASE_OPEN_DT'];
-				display_case($caseId, $patientFName, $patientLName, $doctorName, $labName, $officeName, $caseOpenDt);
+				echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\" id=\"casedisplay\" style=\"border: 1px solid gray; border-spacing: 10px; margin-bottom: 5px\">";
+				$query = "SELECT C.CASE_NUMBER_ID, P.PATIENT_FNAME, P.PATIENT_LNAME, C.DOCTOR_NAME, L.LAB_NAME, S.CASE_STATUS_DESC, C.CASE_OPEN_DT " .
+		 		"FROM case_tbl C, patient_tbl P, lab_tbl L, case_status_tbl S " .
+		 		"WHERE C.PATIENT_ID = P.PATIENT_ID " .
+		 		"AND   C.LAB_ID = L.LAB_ID " .
+				"AND   C.CASE_STATUS_CD = S.CASE_STATUS_CD " .
+				"AND   C.CASE_STATUS_CD = " . $statusCd . " ORDER BY C.CASE_NUMBER_ID DESC " ;
+				// secho "$query";
+				$result = mysqli_query($con, $query);
+				while ($row = mysqli_fetch_assoc($result)) 
+				{
+					$caseId = $row['CASE_NUMBER_ID'];
+			 		$patientFName = $row['PATIENT_FNAME'];
+					$patientLName = $row['PATIENT_LNAME'];
+					$doctorName = $row['DOCTOR_NAME'];
+					$labName = $row['LAB_NAME'];
+					$caseStatusDesc = $row['CASE_STATUS_DESC'];
+					$caseOpenDt = $row['CASE_OPEN_DT'];
+					display_case($caseId, $patientFName, $patientLName, $doctorName, $labName, $caseStatusDesc, $caseOpenDt);
+				}
+				echo "</table>";
 			}
+			// "AND C.CASE_OPEN_DT >= NOW() - INTERVAL 6 WEEK " .
+			//echo "$query";
 		}
 	?>
-	</table>
 </div>
 </div>
 </body>

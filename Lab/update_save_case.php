@@ -1,5 +1,13 @@
 <?php 
-	session_start(); 
+	fclose(STDIN);
+	fclose(STDOUT);
+	fclose(STDERR);
+	$STDIN = fopen('/dev/null', 'r');
+	$STDOUT = fopen('C:\Apache24\logs\application.log', 'wb');
+	$STDERR = fopen('C:\Apache24\logs\error.log', 'wb');
+	$zeroDate = '0000-00-00';
+	
+	//session_start(); 
 	if (!isset($_SESSION['userName']))
 	{
 		header("Location: /lab/login.php");
@@ -18,8 +26,12 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 	$labInvAmt = $_POST['lab_invoice_am_txt'];
 	$paidByPatient = $_POST['paidbypatient'];
 	$paidToLab = $_POST['paidtolab'];
-	$associateDeduction = $_POST['associatededuction'];
-	$associateDeductionUpdDt = $_POST['associatedeductionupddt'];
+	if ($_SESSION['userRole'] === 'admin')
+	{
+		$associateDeduction = $_POST['associatededuction'];
+		$associateDeductionUpdDt = $_POST['associatedeductionupddt'];
+	}
+	$lastUpdUserId = $_SESSION['userName'];
 			
 	if (!$officeName || !$patientId || !$dentistName || !$labId ) 
 	{
@@ -27,7 +39,7 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 		."Please go back and try again.";
 		exit;
 	}
-	if (!get_magic_quotes_gpc()) 
+	/*if (!get_magic_quotes_gpc()) 
 	{
 		$officeName = addslashes($officeName);
 		//$patientId = addslashes($patientId);
@@ -39,37 +51,49 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 		$paidToLab = addslashes($paidToLab);
 		$associateDeduction = addslashes($associateDeduction);
 		$associateDeductionUpdDt = addslashes($associateDeductionUpdDt);
+	}*/
+	if ($_SESSION['userRole'] === 'admin')
+	{
+		if ($associateDeduction == 'NO' && empty($associateDeductionUpdDt))
+		{
+			$query = "update case_tbl set ".
+				 "OFFICE_NAME = '{$officeName}', PATIENT_ID = {$patientId}, DOCTOR_NAME = '{$dentistName}', LAB_ID = {$labId}, " .
+				 "LAB_INVOICE_NO = {$labInvNo}, LAB_COST = {$labInvAmt}, PAID_BY_PATIENT = '{$paidByPatient}', PAID_TO_LAB = '{$paidToLab}', " .
+				 "ASSOCIATE_DEDUCTION = '{$associateDeduction}', LAST_UPD_USERID =  '{$lastUpdUserId}', LAST_UPD_DT = SYSDATE() " .
+				 "where CASE_NUMBER_ID = {$caseId}";
+		}
+		elseif ($associateDeduction == 'YES' && empty($associateDeductionUpdDt))
+		{
+			$query = "update case_tbl set ".
+				 "OFFICE_NAME = '{$officeName}', PATIENT_ID = {$patientId}, DOCTOR_NAME = '{$dentistName}', LAB_ID = {$labId}, " .
+				 "LAB_INVOICE_NO = {$labInvNo}, LAB_COST = {$labInvAmt}, PAID_BY_PATIENT = '{$paidByPatient}', PAID_TO_LAB = '{$paidToLab}', " .
+				 "ASSOCIATE_DEDUCTION = '{$associateDeduction}', " .
+				 "ASSOCIATE_DEDUCTION_UPD_DT = NOW() , LAST_UPD_USERID =  '{$lastUpdUserId}', LAST_UPD_DT = SYSDATE() " .
+				 "where CASE_NUMBER_ID = {$caseId}";
+		}
+		else 
+		{
+			$query = "update case_tbl set ".
+				 "OFFICE_NAME = '{$officeName}', PATIENT_ID = {$patientId}, DOCTOR_NAME = '{$dentistName}', " .
+		    	 "LAB_ID = {$labId}, LAB_INVOICE_NO = {$labInvNo}, LAB_COST = {$labInvAmt}, " .
+		    	 "PAID_BY_PATIENT = '{$paidByPatient}', " .
+				 "PAID_TO_LAB = '{$paidToLab}', " .
+				 "LAST_UPD_USERID =  '{$lastUpdUserId}', LAST_UPD_DT = SYSDATE() " .
+			 	"where CASE_NUMBER_ID = {$caseId}";
+		}
 	}
-	if ($associateDeduction == 'NO' && empty($associateDeductionUpdDt))
+	else
 	{
 		$query = "update case_tbl set ".
-			 "OFFICE_NAME = '{$officeName}', PATIENT_ID = {$patientId}, DOCTOR_NAME = '{$dentistName}', LAB_ID = {$labId}, " .
-			 "LAB_INVOICE_NO = {$labInvNo}, LAB_COST = {$labInvAmt}, PAID_BY_PATIENT = '{$paidByPatient}', PAID_TO_LAB = '{$paidToLab}', " .
-			 "ASSOCIATE_DEDUCTION = '{$associateDeduction}' " .
-			 "where CASE_NUMBER_ID = {$caseId}";
+			"OFFICE_NAME = '{$officeName}', PATIENT_ID = {$patientId}, DOCTOR_NAME = '{$dentistName}', " .
+		    "LAB_ID = {$labId}, LAB_INVOICE_NO = {$labInvNo}, LAB_COST = {$labInvAmt}, " .
+		    "PAID_BY_PATIENT = '{$paidByPatient}', " .
+			"PAID_TO_LAB = '{$paidToLab}', " .
+			"LAST_UPD_USERID =  '{$lastUpdUserId}', LAST_UPD_DT = SYSDATE() " .
+			"where CASE_NUMBER_ID = {$caseId}";
 	}
-	elseif ($associateDeduction == 'YES' && empty($associateDeductionUpdDt))
-	{
-		$query = "update case_tbl set ".
-			 "OFFICE_NAME = '{$officeName}', PATIENT_ID = {$patientId}, DOCTOR_NAME = '{$dentistName}', LAB_ID = {$labId}, " .
-			 "LAB_INVOICE_NO = {$labInvNo}, LAB_COST = {$labInvAmt}, PAID_BY_PATIENT = '{$paidByPatient}', PAID_TO_LAB = '{$paidToLab}', " .
-			 "ASSOCIATE_DEDUCTION = '{$associateDeduction}', " .
-			 "ASSOCIATE_DEDUCTION_UPD_DT = NOW() " .
-			 "where CASE_NUMBER_ID = {$caseId}";
-	}
-	else 
-	{
-		$query = "update case_tbl set ".
-			 "OFFICE_NAME = '{$officeName}', PATIENT_ID = {$patientId}, DOCTOR_NAME = '{$dentistName}', " .
-		     "LAB_ID = {$labId}, LAB_INVOICE_NO = {$labInvNo}, LAB_COST = {$labInvAmt}, " .
-		     "PAID_BY_PATIENT = '{$paidByPatient}', " .
-			 "PAID_TO_LAB = '{$paidToLab}' " .
-			 "where CASE_NUMBER_ID = {$caseId}";
-	}
-	//echo "$query\n";
-	//echo "\n";
+	fwrite($STDOUT, "$query\n");
 	$result = mysqli_query($con, $query);
-	
 	// Process Procedures ...
 	// Get the current count of procedures
 	$maxProcs = 15;
@@ -94,16 +118,23 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 			$result = mysqli_query($con, $query);
 			for ($j = 1; $j <= 3; $j++)
 			{
-				$procCreateDate = $_POST['procCreateDate' . $j . '_' . $i];
-				$procOutLabDate = $_POST['procOutLabDate' . $j . '_' . $i];
-				$procFromLabDate = $_POST['procFromLabDate' . $j . '_' . $i];
+				$procCreateDateRaw = $_POST['procCreateDate' . $j . '_' . $i];
+				$procCreateDate = (empty($procCreateDateRaw)) ? $zeroDate : $procCreateDateRaw;
+				$procOutLabDateRaw = $_POST['procOutLabDate' . $j . '_' . $i];
+				$procOutLabDate = (empty($procOutLabDateRaw)) ? $zeroDate : $procOutLabDateRaw;
+				$procFromLabDateRaw = $_POST['procFromLabDate' . $j . '_' . $i];
+				$procFromLabDate = (empty($procFromLabDateRaw)) ? $zeroDate : $procFromLabDateRaw;
 				$procComments = $_POST['procComments' . $j . '_' . $i];
 
 				$query = "update case_procedure_txn_tbl set ".
 						 "PROCEDURE_START_DT = '{$procCreateDate}', PROCEDURE_OUT_TO_LAB_DT = '{$procOutLabDate}', PROCEDURE_BACK_FROM_LAB_DT = '{$procFromLabDate}', PROCEDURE_COMMENT = '{$procComments}' " .
-				         "where CASE_NUMBER_ID = {$caseId} and CASE_PROCEDURE_NO = {$i} and PROC_TRANSACTION_ID = {$j}";   
+				         "where CASE_NUMBER_ID = {$caseId} and CASE_PROCEDURE_NO = {$i} and PROC_TRANSACTION_ID = {$j}";
+				
+				//fwrite($STDOUT, "$query\n");  
+				
 				$result = mysqli_query($con, $query);
-			}	
+			}
+			//fwrite($STDERR, "Something went wrong\n"); 	
 		}
 		else	// Process adding new procedures to the case 
 		{
@@ -122,10 +153,14 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 				$result = mysqli_query($con, $query);
 				for ($j = 1; $j <= 3; $j++)
 				{
-					$procCreateDate = $_POST['procCreateDate' . $j . '_' . $i];
-					$procOutLabDate = $_POST['procOutLabDate' . $j . '_' . $i];
-					$procFromLabDate = $_POST['procFromLabDate' . $j . '_' . $i];
+					$procCreateDateRaw = $_POST['procCreateDate' . $j . '_' . $i];
+					$procCreateDate = (empty($procCreateDateRaw)) ? $zeroDate : $procCreateDateRaw;
+					$procOutLabDateRaw = $_POST['procOutLabDate' . $j . '_' . $i];
+					$procOutLabDate = (empty($procOutLabDateRaw)) ? $zeroDate : $procOutLabDateRaw;
+					$procFromLabDateRaw = $_POST['procFromLabDate' . $j . '_' . $i];
+					$procFromLabDate = (empty($procFromLabDateRaw)) ? $zeroDate : $procFromLabDateRaw;
 					$procComments = $_POST['procComments' . $j . '_' . $i];
+
 					$query = "insert into case_procedure_txn_tbl(".
 			 		"CASE_NUMBER_ID, CASE_PROCEDURE_NO, PROC_TRANSACTION_ID, PROCEDURE_START_DT, PROCEDURE_OUT_TO_LAB_DT, PROCEDURE_BACK_FROM_LAB_DT, PROCEDURE_COMMENT)".
 			 		" values ({$caseId},{$i},{$j},'{$procCreateDate}','{$procOutLabDate}','{$procFromLabDate}','{$procComments}')";
@@ -140,8 +175,8 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 			//}
 		}
 	}
-	//header("Location: /lab/get_display_case_proc.php?cId=$caseId");
-	header("Location: /lab/search_display_cases.php");
+	header("Location: /lab/get_display_case_proc.php?cId=$caseId");
+	//header("Location: /lab/search_display_cases.php");
 }
 if(isset($_POST['submit_add_1']))
 {
@@ -164,7 +199,7 @@ if(isset($_POST['submit_add_1']))
 		."Please go back and try again.";
 		exit;
 	}
-	if (!get_magic_quotes_gpc()) 
+	/*if (!get_magic_quotes_gpc()) 
 	{
 		$officeName = addslashes($officeName);
 		//$patientId = addslashes($patientId);
@@ -176,7 +211,7 @@ if(isset($_POST['submit_add_1']))
 		$paidToLab = addslashes($paidToLab);
 		$associateDeduction = addslashes($associateDeduction);
 		$associateDeductionUpdDt = addslashes($associateDeductionUpdDt);
-	}
+	}*/
 	if ($associateDeduction == 'NO' && empty($associateDeductionUpdDt))
 	{
 		$query = "update case_tbl set ".
@@ -234,9 +269,12 @@ if(isset($_POST['submit_add_1']))
 			$result = mysqli_query($con, $query);
 			for ($j = 1; $j <= 3; $j++)
 			{
-				$procCreateDate = $_POST['procCreateDate' . $j . '_' . $i];
-				$procOutLabDate = $_POST['procOutLabDate' . $j . '_' . $i];
-				$procFromLabDate = $_POST['procFromLabDate' . $j . '_' . $i];
+				$procCreateDateRaw = $_POST['procCreateDate' . $j . '_' . $i];
+				$procCreateDate = (empty($procCreateDateRaw)) ? $zeroDate : $procCreateDateRaw;
+				$procOutLabDateRaw = $_POST['procOutLabDate' . $j . '_' . $i];
+				$procOutLabDate = (empty($procOutLabDateRaw)) ? $zeroDate : $procOutLabDateRaw;
+				$procFromLabDateRaw = $_POST['procFromLabDate' . $j . '_' . $i];
+				$procFromLabDate = (empty($procFromLabDateRaw)) ? $zeroDate : $procFromLabDateRaw;
 				$procComments = $_POST['procComments' . $j . '_' . $i];
 
 				$query = "update case_procedure_txn_tbl set ".
@@ -258,18 +296,22 @@ if(isset($_POST['submit_add_1']))
 				$query = "insert into case_procedure_tbl(".
 			 			 "CASE_NUMBER_ID, CASE_PROCEDURE_NO, PROCEDURE_NAME, PROCEDURE_TYPE, QUADRANT_NUMBER, TOOTH_NUMBER)".
 			 			 " values ({$caseId},{$i},'{$procName}','{$procType}','{$procQuadNo}','{$procToothNo}')";
-			//echo "$query\n";
+			echo "$query\n";
 				$result = mysqli_query($con, $query);
 				for ($j = 1; $j <= 3; $j++)
 				{
-					$procCreateDate = $_POST['procCreateDate' . $j . '_' . $i];
-					$procOutLabDate = $_POST['procOutLabDate' . $j . '_' . $i];
-					$procFromLabDate = $_POST['procFromLabDate' . $j . '_' . $i];
+					$procCreateDateRaw = $_POST['procCreateDate' . $j . '_' . $i];
+					$procCreateDate = (empty($procCreateDateRaw)) ? $zeroDate : $procCreateDateRaw;
+					$procOutLabDateRaw = $_POST['procOutLabDate' . $j . '_' . $i];
+					$procOutLabDate = (empty($procOutLabDateRaw)) ? $zeroDate : $procOutLabDateRaw;
+					$procFromLabDateRaw = $_POST['procFromLabDate' . $j . '_' . $i];
+					$procFromLabDate = (empty($procFromLabDateRaw)) ? $zeroDate : $procFromLabDateRaw;
 					$procComments = $_POST['procComments' . $j . '_' . $i];
+
 					$query = "insert into case_procedure_txn_tbl(".
 			 		"CASE_NUMBER_ID, CASE_PROCEDURE_NO, PROC_TRANSACTION_ID, PROCEDURE_START_DT, PROCEDURE_OUT_TO_LAB_DT, PROCEDURE_BACK_FROM_LAB_DT, PROCEDURE_COMMENT)".
 			 		" values ({$caseId},{$i},{$j},'{$procCreateDate}','{$procOutLabDate}','{$procFromLabDate}','{$procComments}')";
-					//echo "$query";
+					echo "$query";
 					$result = mysqli_query($con, $query);
 				}
 			}
@@ -280,6 +322,7 @@ if(isset($_POST['submit_add_1']))
 			//}
 		}
 	}
+	//header("Location: /lab/get_display_case_proc.php?cId=$caseId");
 	header("Location: /lab/get_display_case_proc.php?cId=".$caseId."&eProc=1");
 }
 ?>

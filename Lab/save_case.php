@@ -7,6 +7,7 @@
 	}
 ?>
 <?php 
+$zeroDate = '0000-00-00';
 if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 {
 	$officeName=$_POST['office_lst'];
@@ -16,9 +17,11 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 	$labInvNo = $_POST['lab_invoice_no_txt'];
 	$labInvAmt = $_POST['lab_invoice_am_txt'];
 	$paidByPatient = $_POST['paidbypatient'];
+	$caseStatusCd = 'E';
+	$lastUpdUserId = $_SESSION['userName'];
 	//$paidToLab = $_POST['paidtolab'];
 		
-	if (!get_magic_quotes_gpc()) {
+	/*if (!get_magic_quotes_gpc()) {
 		$officeName = addslashes($officeName);
 		//$patientId = addslashes($patientId);
 		$dentistName = addslashes($dentistName);
@@ -27,11 +30,12 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 		//$labInvAmt = addslashes($labInvAmt);
 		$paidByPatient = addslashes($paidByPatient);
 		//$paidToLab = addslashes($paidToLab);
-	}
+	}*/
 	
 	$query = "insert into case_tbl(".
-			 "OFFICE_NAME, PATIENT_ID, DOCTOR_NAME, LAB_ID, CASE_OPEN_DT, LAB_INVOICE_NO, LAB_COST, PAID_BY_PATIENT)".
-			 " values ('{$officeName}',{$patientId},'{$dentistName}',{$labId},sysdate(),{$labInvNo},{$labInvAmt},'{$paidByPatient}')";
+			 "OFFICE_NAME, PATIENT_ID, DOCTOR_NAME, LAB_ID, CASE_OPEN_DT, LAB_INVOICE_NO, LAB_COST, PAID_BY_PATIENT, CASE_STATUS_CD, LAST_UPD_USERID, LAST_UPD_DT)".
+			 " values ('{$officeName}',{$patientId},'{$dentistName}',{$labId},sysdate(),{$labInvNo},{$labInvAmt},'{$paidByPatient}','{$caseStatusCd}','{$lastUpdUserId}',sysdate())";
+	echo "$query\n";
 	$result = mysqli_query($con, $query);
 	// Get the generated ID for just inserted record
 	
@@ -57,13 +61,18 @@ if((isset($_POST['submit_exit_1'])) or (isset($_POST['submit_exit_2'])))
 			$result = mysqli_query($con, $query);
 			for ($j = 1; $j <= 3; $j++)
 			{
-				$procCreateDate = $_POST['procCreateDate' . $j . '_' . $i];
-				$procOutLabDate = $_POST['procOutLabDate' . $j . '_' . $i];
-				$procFromLabDate = $_POST['procFromLabDate' . $j . '_' . $i];
+				$procCreateDateRaw = $_POST['procCreateDate' . $j . '_' . $i];
+				$procCreateDate = (empty($procCreateDateRaw)) ? $zeroDate : $procCreateDateRaw;
+				$procOutLabDateRaw = $_POST['procOutLabDate' . $j . '_' . $i];
+				$procOutLabDate = (empty($procOutLabDateRaw)) ? $zeroDate : $procOutLabDateRaw;
+				$procFromLabDateRaw = $_POST['procFromLabDate' . $j . '_' . $i];
+				$procFromLabDate = (empty($procFromLabDateRaw)) ? $zeroDate : $procFromLabDateRaw;
 				$procComments = $_POST['procComments' . $j . '_' . $i];
+
 				$query = "insert into case_procedure_txn_tbl(".
 			 	"CASE_NUMBER_ID, CASE_PROCEDURE_NO, PROC_TRANSACTION_ID, PROCEDURE_START_DT, PROCEDURE_OUT_TO_LAB_DT, PROCEDURE_BACK_FROM_LAB_DT, PROCEDURE_COMMENT)".
 			 	" values ({$caseIdLast},{$i},{$j},'{$procCreateDate}','{$procOutLabDate}','{$procFromLabDate}','{$procComments}')";
+				echo "$query\n";
 				$result = mysqli_query($con, $query);
 			}
 		}
@@ -83,7 +92,7 @@ if(isset($_POST['submit_add_1']))
 	$paidByPatient = $_POST['paidbypatient'];
 	//$paidToLab = $_POST['paidtolab'];
 		
-	if (!get_magic_quotes_gpc()) {
+	/*if (!get_magic_quotes_gpc()) {
 		$officeName = addslashes($officeName);
 		//$patientId = addslashes($patientId);
 		$dentistName = addslashes($dentistName);
@@ -92,11 +101,11 @@ if(isset($_POST['submit_add_1']))
 		//$labInvAmt = addslashes($labInvAmt);
 		$paidByPatient = addslashes($paidByPatient);
 		//$paidToLab = addslashes($paidToLab);
-	}
+	}*/
 	
 	$query = "insert into case_tbl(".
-			 "OFFICE_NAME, PATIENT_ID, DOCTOR_NAME, LAB_ID, CASE_OPEN_DT, LAB_INVOICE_NO, LAB_COST, PAID_BY_PATIENT)".
-			 " values ('{$officeName}',{$patientId},'{$dentistName}',{$labId},sysdate(),{$labInvNo},{$labInvAmt},'{$paidByPatient}')";
+			 "OFFICE_NAME, PATIENT_ID, DOCTOR_NAME, LAB_ID, CASE_OPEN_DT, LAB_INVOICE_NO, LAB_COST, PAID_BY_PATIENT, CASE_STATUS_CD, LAST_UPD_USERID, LAST_UPD_DT)".
+			 " values ('{$officeName}',{$patientId},'{$dentistName}',{$labId},sysdate(),{$labInvNo},{$labInvAmt},'{$paidByPatient}','{$caseStatusCd}','{$lastUpdUserId}',sysdate())";
 	$result = mysqli_query($con, $query);
 	// Get the generated ID for just inserted record
 	
@@ -122,9 +131,12 @@ if(isset($_POST['submit_add_1']))
 			$result = mysqli_query($con, $query);
 			for ($j = 1; $j <= 3; $j++)
 			{
-				$procCreateDate = $_POST['procCreateDate' . $j . '_' . $i];
-				$procOutLabDate = $_POST['procOutLabDate' . $j . '_' . $i];
-				$procFromLabDate = $_POST['procFromLabDate' . $j . '_' . $i];
+				$procCreateDateRaw = $_POST['procCreateDate' . $j . '_' . $i];
+				$procCreateDate = (empty($procCreateDateRaw)) ? $zeroDate : $procCreateDateRaw;
+				$procOutLabDateRaw = $_POST['procOutLabDate' . $j . '_' . $i];
+				$procOutLabDate = (empty($procOutLabDateRaw)) ? $zeroDate : $procOutLabDateRaw;
+				$procFromLabDateRaw = $_POST['procFromLabDate' . $j . '_' . $i];
+				$procFromLabDate = (empty($procFromLabDateRaw)) ? $zeroDate : $procFromLabDateRaw;
 				$procComments = $_POST['procComments' . $j . '_' . $i];
 				$query = "insert into case_procedure_txn_tbl(".
 			 	"CASE_NUMBER_ID, CASE_PROCEDURE_NO, PROC_TRANSACTION_ID, PROCEDURE_START_DT, PROCEDURE_OUT_TO_LAB_DT, PROCEDURE_BACK_FROM_LAB_DT, PROCEDURE_COMMENT)".

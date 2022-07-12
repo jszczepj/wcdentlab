@@ -80,8 +80,7 @@
 			document.getElementById(elId).style.display = 'none';
 		}
 		</script>
-		<!--<link rel="stylesheet" href="/resources/demos/style.css" />-->
-        <link rel="stylesheet" href="style-mg.css" />
+		<link rel="stylesheet" href="style-mg.css" />
 			<script>
 		function setFocus()
 		{
@@ -92,7 +91,7 @@
 	<body onload="setFocus()">
     <div id="wrapperlarge">
     <div id="search">
-	<div align="right"><img src="images/winston-churchill-dental.png" width="220"><img src="images/heritage-house-dental.png" width="300"></div>
+	<div align="right"><img src="images/winston-churchill-dental.png" width="220"><img src="images/heritage-house-dental.png" width="300"><img src="images/smiles-on-essa-dental.png" width="300"></div>
     <h1>Enter New Case</h1>
 <p align="right" class="date">Date: <?php echo date('jS F Y'); ?>&nbsp;&nbsp;&nbsp;User Name: <?php echo $_SESSION['userName']; ?>&nbsp;&nbsp;&nbsp;User Role: <?php echo $_SESSION['userRole']; ?></p>
 	<form action="save_case.php" name="caseData" method="post" onsubmit="return (validateForm())">
@@ -114,19 +113,19 @@
 	
 		<tr>
 			<td align="left">
-				<label for="office_lst">Office Location:</label>
+				<label for="office_lst" style="width: 135px; height: 30px vertical-align: middle; margin-left: 15px">Office Location:</label>
 				<?php $officeNameAr = array('Heritage House Dental','Winston Churchill Dental');?>
-				<select name="office_lst" id="office_lst">
+				<select name="office_lst" id="office_lst" style="width: 250px; height: 30px">
 					<option value=''>Select Dental Office</option>
 					<option value="Winston Churchill Dental">Winston Churchill Dental</option>
 					<option value="Heritage House Dental">Heritage House Dental</option>
 				</select>
-			<br />
-			
+			</td>
+			<td align="left">			
 				<?php
 			    $query = "select PATIENT_ID, PATIENT_FNAME, PATIENT_LNAME, PATIENT_PHONE_NO from patient_tbl order by PATIENT_LNAME";
 				$result = mysqli_query($con, $query);
-				print "<label for=\"patient_lst_id\">Patient Name:</label><select name=\"patient_lst_id\" id=\"patient_lst_id\">\n";
+				print "<label for=\"patient_lst_id\" style=\"width: 134px; height: 30px vertical-align: middle; margin-left: 15px\">Patient Name:</label><select name=\"patient_lst_id\" id=\"patient_lst_id\" style=\"width: 250px; height: 30px\">";
 				echo "<option value=''>Select Patient</option>";
 				while ($row = mysqli_fetch_assoc($result)) 
 				{
@@ -137,10 +136,12 @@
 					print "<option value=$patientId>$patientLname, $patientFname ($patientPhoneNo)</option>\n";
 				}
 				echo "</select>";
-				?>&nbsp;&nbsp;&nbsp;
-				<a href="add_patient.php">Add Patient</a> <br />
-			
-				<label for="dentist_lst">Dentist:</label><select name="dentist_lst">
+				?><!--a href="add_patient.php">Add Patient</a-->
+			</td>
+		</tr>
+		<tr>
+			<td align="left">	
+				<label for="dentist_lst" style="width: 135px; height: 30px; vertical-align: middle; margin-left: 15px">Dentist:</label><select name="dentist_lst" style="width: 250px; height: 30px">
 					<option value=''>Select Dentist</option>
 					<option value="Kate Bazydlo">Dr. Kate Bazydlo</option>
 					<option value="Daniela Bololoi">Dr. Daniela Bololoi</option>
@@ -150,17 +151,11 @@
 					<option value="Fred Diodati">Dr. Fred Diodati</option>
 				</select>
 			</td>
-		</tr>
-	</table>
-	
-	<table width="100%" border="0" cellspacing="0" cellpadding="2">			
-		<tr>
-
 			<td align="left">
 				<?php
 				$query = "select LAB_ID, LAB_NAME, LAB_CONTACT_FNAME, LAB_CONTACT_LNAME, LAB_PHONE_NO from lab_tbl order by LAB_NAME";
 				$result = mysqli_query($con, $query);
-					print "<label for=\"lab_lst\">Laboratory:</label><select name=\"lab_lst\">\n";
+					print "<label for=\"lab_lst\" style=\"width: 135px; height: 30px; vertical-align: middle; margin-left: 15px\">Laboratory:</label><select name=\"lab_lst\" style=\"width: 250px; height: 30px\">\n";
 					echo "<option value=''>Select Laboratory</option>";
 					while ($row = mysqli_fetch_assoc($result)) 
 					{
@@ -172,24 +167,29 @@
 						print "<option value=$labId>$labName</option>\n";
 					}
 					print "</select>\n";
-				?><br />
-			<label for="lab_invoice_no_txt">Lab Invoice Number:</label><input type="text" value="0" name="lab_invoice_no_txt" > <br />
-            <label for="lab_invoice_am_txt">Lab Invoice Amount:</label><input type="text" value="0.00" name="lab_invoice_am_txt" > <br />
-</td>
+				?>
+			</td>
+		</tr>
+	</table>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">			
+		<tr>
+			<td align="left"><label for="lab_invoice_no_txt" style="width: 135px; height: 30px; vertical-align: middle; margin-left: 15px">Lab Invoice Number: </label>
+			<input type="text" value="0" name="lab_invoice_no_txt" style="width: 250px; height: 30px"></td>
+			<td align="left"><label for="lab_invoice_am_txt" style="width: 135px; height: 30px; vertical-align: middle; margin-left: 15px">Lab Invoice Amount:</label>
+			<input type="text" value="0.00" name="lab_invoice_am_txt" style="width: 250px; height: 30px"></td>
 		</tr>
 	</table>
     <table width="100%" border="0" cellspacing="0" cellpadding="2">	
         <tr>
 			
 			<td> 
-				<label for="paidbypatient">Paid by Patient:</label><input style="width:20px; height:15px" type="radio" name="paidbypatient" value="NO" checked="checked">NO &nbsp;&nbsp;&nbsp;
+				<label for="paidbypatient" style="width: 180px; height: 30px; vertical-align: middle; margin-left: 15px">Paid by Patient:</label>
+				<input style="width:20px; height:15px" type="radio" name="paidbypatient" value="NO" checked="checked">NO &nbsp;&nbsp;&nbsp;
 				<input style="width:20px; height:15px" type="radio" name="paidbypatient" value="YES">YES&nbsp;&nbsp;&nbsp;
 				<input style="width:20px; height:15px" type="radio" name="paidbypatient" value="PP">PP&nbsp;&nbsp;&nbsp;
 			</td>
-		</tr>
-		<tr>
 			<td align="center">
-                <button style="width:150px; height:30px; margin-left:0" type="submit" name="submit_exit_1">Save/Exit</button>
+                <button style="width:150px; height:30px; margin-left:0" type="submit" name="submit_exit_1">Save</button>
                 <button style="width:150px; height:30px; margin-left:0" type="button" name="cancel_1" onclick="window.location.href='search_display_cases.php'">Cancel</button>
              </td>
 		</tr>
@@ -240,7 +240,7 @@
     	<tr>
 			<td align="center">
 				<button style="width:250px; height:30px; margin-left:0" type="submit" name="submit_add_1">Save/Add Next Procedure</button>
-                <button style="width:150px; height:30px; margin-left:0" type="submit" name="submit_exit_2">Save/Exit</button>
+                <button style="width:150px; height:30px; margin-left:0" type="submit" name="submit_exit_2">Save</button>
                 <button style="width:150px; height:30px; margin-left:0" type="button" name="cancel_2" onclick="window.location.href='search_display_cases.php'">Cancel</button>
              </td>
 		</tr>
