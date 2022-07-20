@@ -5,9 +5,9 @@
 	$patientFname=$_POST['patient_Fname'];
 	$patientLname=$_POST['patient_Lname'];
 	$patientPhoneNo=$_POST['patient_Phone_No'];
-	# $patientEmail=$_POST['patient_Email'];
+	// $patientEmail=$_POST['patient_Email'];
 		
-	#if (!$patientFname || !$patientLname || !$patientPhoneNo || !$patientEmail ) 
+	// if (!$patientFname || !$patientLname || !$patientPhoneNo || !$patientEmail ) 
 	if (!$patientFname || !$patientLname || !$patientPhoneNo)
 	{
 		echo "You have not entered all the required details.<br />"
@@ -18,10 +18,10 @@
 	$patientFname = addslashes($patientFname);
 	$patientLname = addslashes($patientLname);
 	$patientPhoneNo = addslashes($patientPhoneNo);
-	#$patientEmail = addslashes($patientEmail);
+	// $patientEmail = addslashes($patientEmail);
 	//}
 	
-	$query = "insert into PATIENT_TBL(".
+	$query = "insert into patient_tbl(".
 			 "PATIENT_FNAME, PATIENT_LNAME, PATIENT_PHONE_NO, PATIENT_CREATE_DT)".
 			 " values ('{$patientFname}','{$patientLname}','{$patientPhoneNo}',sysdate())";
 	
