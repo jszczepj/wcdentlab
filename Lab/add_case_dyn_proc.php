@@ -114,11 +114,12 @@
 		<tr>
 			<td align="left">
 				<label for="office_lst" style="width: 135px; height: 30px vertical-align: middle; margin-left: 15px">Office Location:</label>
-				<?php $officeNameAr = array('Heritage House Dental','Winston Churchill Dental');?>
+				<?php $officeNameAr = array('Heritage House Dental','Winston Churchill Dental','Smiles On Essa Dental');?>
 				<select name="office_lst" id="office_lst" style="width: 250px; height: 30px">
 					<option value=''>Select Dental Office</option>
 					<option value="Winston Churchill Dental">Winston Churchill Dental</option>
 					<option value="Heritage House Dental">Heritage House Dental</option>
+					<option value="Smiles On Essa Dental">Smiles On Essa Dental</option>
 				</select>
 			</td>
 			<td align="left">			
@@ -149,6 +150,11 @@
 					<option value="Yolanda Li">Dr. Yolanda Li</option>
 					<option value="Nicole Maciel">Dr. Nicole Maciel</option>
 					<option value="Fred Diodati">Dr. Fred Diodati</option>
+					<option value="Lauren Lin">Dr. Lauren Lin</option>
+					<option value="Rupreet Dhanju">Dr. Rupreet Dhanju</option>
+					<option value="Sanya Arora">Dr. Sanya Arora</option>
+					<option value="Nadia Inayat">Dr. Nadia Inayat</option>
+					<option value="April Xu">Dr. April Xu</option>
 				</select>
 			</td>
 			<td align="left">

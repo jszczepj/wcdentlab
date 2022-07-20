@@ -161,9 +161,7 @@ while ($row = mysqli_fetch_assoc($result))
 			<td align="left">
 				<?php 
 					// Initialize Office Name Array
-					$officeNameAr = array('Heritage House Dental'
-										  ,'Winston Churchill Dental'
-										 );
+					$officeNameAr = array('Heritage House Dental','Winston Churchill Dental','Smiles On Essa Dental');
 					print "<label for=\"office_lst\" style=\"width: 100px; height: 30px; vertical-align: middle; margin-left: 5px\">Office:</label><select name=\"office_lst\" style=\"width: 200px; height: 30px\">";
 					for ($i = 0; $i < count($officeNameAr); $i++)
 					{
@@ -205,7 +203,7 @@ while ($row = mysqli_fetch_assoc($result))
 			</td>
 			<td align="left">
 				<?php 
-					$doctorNameAr = array('Kate Bazydlo','Daniela Bololoi','Jennifer Holody','Yolanda Li','Nicole Maciel','Fred Diodati');
+					$doctorNameAr = array('Kate Bazydlo','Daniela Bololoi','Jennifer Holody','Yolanda Li','Nicole Maciel','Fred Diodati','Lauren Lin','Rupreet Dhanju','Sanya Arora','Nadia Inayat','April Xu');
 					print "<label for=\"dentist_lst\" style=\"width: 100px; height: 30px; vertical-align: middle; margin-left: 5px\">Dentist:</label><select name=\"dentist_lst\" style=\"width: 250px; height: 30px\">";
 					for ($i = 0; $i < count($doctorNameAr); $i++)
 					{

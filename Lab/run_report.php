@@ -70,6 +70,11 @@
 					<option value="Yolanda Li">Dr. Yolanda Li</option>
 					<option value="Nicole Maciel">Dr. Nicole Maciel</option>
 					<option value="Fred Diodati">Dr. Fred Diodati</option>
+					<option value="Lauren Lin">Dr. Lauren Lin</option>
+					<option value="Rupreet Dhanju">Dr. Rupreet Dhanju</option>
+					<option value="Sanya Arora">Dr. Sanya Arora</option>
+					<option value="Nadia Inayat">Dr. Nadia Inayat</option>
+					<option value="April Xu">Dr. April Xu</option>
 				</select>
 			</td>
 			<td style="align:left; vertical-align:middle; padding-top: 10px">

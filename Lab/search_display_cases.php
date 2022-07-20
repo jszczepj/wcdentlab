@@ -89,7 +89,7 @@
 			<td width="30%">
 				<label for="dentist_lst" style="width: 100px; height: 30px; vertical-align: middle; margin-left: 5px">Dentist:</label>
 				<?php 
-					$doctorNameAr = array('Kate Bazydlo','Daniela Bololoi','Jennifer Holody','Yolanda Li','Nicole Maciel','Fred Diodati');
+					$doctorNameAr = array('Kate Bazydlo','Daniela Bololoi','Jennifer Holody','Yolanda Li','Nicole Maciel','Fred Diodati','Lauren Lin','Rupreet Dhanju','Sanya Arora','Nadia Inayat','April Xu');
 					if (!empty($_POST['office_lst']))
 					{
 						$postedDoctorName = $_POST['dentist_lst'];
@@ -124,7 +124,7 @@
 			<label for="office_lst" style="width: 50px; height: 30px; vertical-align: middle; margin-left: 5px">Office:</label>
 				<?php 
 				// Initialize Office Name Array
-					$officeNameAr = array('Heritage House Dental','Winston Churchill Dental');
+					$officeNameAr = array('Heritage House Dental','Winston Churchill Dental','Smiles On Essa Dental');
 					if (!empty($_POST['office_lst']))
 					{
 						$postedOfficeName = $_POST['office_lst'];
