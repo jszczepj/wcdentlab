@@ -14,12 +14,12 @@
 		."Please go back and try again.";
 		exit;
 	}
-	if (!get_magic_quotes_gpc()) {
-		$patientFname = addslashes($patientFname);
-		$patientLname = addslashes($patientLname);
-		$patientPhoneNo = addslashes($patientPhoneNo);
-		#$patientEmail = addslashes($patientEmail);
-	}
+	// if (!get_magic_quotes_gpc()) {
+	$patientFname = addslashes($patientFname);
+	$patientLname = addslashes($patientLname);
+	$patientPhoneNo = addslashes($patientPhoneNo);
+	#$patientEmail = addslashes($patientEmail);
+	//}
 	
 	$query = "insert into PATIENT_TBL(".
 			 "PATIENT_FNAME, PATIENT_LNAME, PATIENT_PHONE_NO, PATIENT_CREATE_DT)".

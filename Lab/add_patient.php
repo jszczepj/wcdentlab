@@ -8,9 +8,9 @@
 <html>
 	<head>
 		<title>Enter New Patient</title>
-		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
         <!--<link rel="stylesheet" type="text/css" href="mainstyle.css">-->
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 		<script type="text/javascript" src="jquery-1.10.2.js"></script>
 		<script type="text/javascript" src="jquery-ui-1.10.4.js"></script>
 		<script type="text/javascript" src="jquery.maskedinput.js"></script>
